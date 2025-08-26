@@ -33,9 +33,9 @@ jobs:
               run: | 
                 mkdir -p ~/.ssh
                 echo "${{secrets.SSH_PRIVATE_KEY}}" > ~/.ssh/ec2-schluessel
-                chmod 400 ~/.ssh/meinPrivateKey
+                chmod 400 ~/.ssh/ec2-schluessel
                 ssh-keyscan -H ${{secrets.EC2_IP}}  >> ~/.ssh/known_hosts    
             
-            - name: kopiere math.js zu ec2 maschine
+            - name: kopiere mehrwertsteuer.js zu ec2 maschine
               run: |
                 scp -i ~/.ssh/ec2-schluessel 25-08-25-ha/mehrwertsteuer.js ubuntu@${{secrets.EC2_IP}}:/home/ubuntu
