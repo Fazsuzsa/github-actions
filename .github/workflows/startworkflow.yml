@@ -1,4 +1,4 @@
-name: das ist mein workflow
+name: dasIstMeinWorkflow
 
 on: push
 
