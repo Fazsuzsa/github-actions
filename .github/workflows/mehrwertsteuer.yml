@@ -27,7 +27,7 @@ jobs:
               uses: actions/upload-artifact@v4
               with:
                 name: coverage-report
-                path: 25-08-25-ha/coverage
+                path: ../25-08-25-ha/coverage
 
     deploy:
         needs: test
