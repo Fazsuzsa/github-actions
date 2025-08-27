@@ -1,0 +1,27 @@
+name: DeployWorkflow
+
+on: push
+
+jobs:
+    deploy:
+        runs-on: ubuntu-latest
+        steps:
+            - name: checkout
+              uses: actions/checkout@v5
+
+            - name: ssh setup
+              run: | 
+                mkdir -p ~/.ssh
+                echo "${{secrets.SSH_PRIVATE_KEY}}" > ~/.ssh/ec2-schluessel
+                chmod 400 ~/.ssh/ec2-schluessel
+                for host in ${{secrets.EC2_IP}}; do 
+                    ssh-keyscan -H $host  >> ~/.ssh/known_hosts
+                done                
+                
+            - name: index.html für alle EC2 bereitstellen
+              run: |
+                for host in ${{secrets.EC2_IP}}; do
+                    scp -i ~/.ssh/ec2-schluessel 25-08-27-ha/index.html ubuntu@$host:/home/ubuntu/index.html
+                    ssh -i ~/.ssh/ec2-schluessel ubuntu@$host "sudo cp /home/ubuntu/index.html /var/www/html/index.html"
+                done
+    

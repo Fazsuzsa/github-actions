@@ -46,7 +46,7 @@ jobs:
                 webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
                 webhook-type: incoming-webhook
                 payload: |
-                    text: "❌ Test Job fehlgeschalgen"
+                    text: "❌ Test Job fehlgeschlagen"
 
     deploy:
         needs: test
