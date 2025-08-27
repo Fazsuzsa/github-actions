@@ -14,14 +14,10 @@ jobs:
                 mkdir -p ~/.ssh
                 echo "${{secrets.SSH_PRIVATE_KEY}}" > ~/.ssh/ec2-schluessel
                 chmod 400 ~/.ssh/ec2-schluessel
-                for ip in ${{secrets.EC2_IP}}; do 
-                    ssh-keyscan -H $ip  >> ~/.ssh/known_hosts
-                done                
+                ssh-keyscan -H ${{secrets.EC2_IP}}  >> ~/.ssh/known_hosts                
                 
             - name: index.html für alle EC2 bereitstellen
               run: |
-                for ip in ${{secrets.EC2_IP}}; do
-                    scp -i ~/.ssh/ec2-schluessel 25-08-27-ha/index.html ubuntu@$ip:/home/ubuntu/index.html
-                    ssh -i ~/.ssh/ec2-schluessel ubuntu@$ip "sudo cp /home/ubuntu/index.html /var/www/html/index.html"
-                done
+                scp -i ~/.ssh/ec2-schluessel 25-08-27-ha/index.html ubuntu@${{secrets.EC2_IP}}:/home/ubuntu/index.html
+                ssh -i ~/.ssh/ec2-schluessel ubuntu@$${{secrets.EC2_IP}} "sudo cp /home/ubuntu/index.html /var/www/html/index.html"
     
